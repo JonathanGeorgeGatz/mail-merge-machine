@@ -1,0 +1,44 @@
+THE MAIL MERGE MACHINE — the exact three prompts from the episode (Build It With AI, Episode 17)
+Paste them into your AI assistant one at a time, in order. They were written for a Google Sheet;
+prompts 2 and 3 exist because the first two builds were wrong in ways worth understanding before
+you let anything near your customers' inboxes.
+
+=== PROMPT 1 ===
+I keep my customer list in a Google Sheet and I'm tired of paying per-seat subscriptions to send
+the same letter with different names in it. I have a Contacts tab (my columns: Email, First name,
+Last Name, System, Last Service, Rate, Phone, Opt Out) and a Letter tab with two rows — Subject
+and Body — where the letter uses fields in double curly braces, like {{First Name}} and {{Rate}},
+that should be filled in from each contact's row. Write me a Google Apps Script that fills the
+letter for every contact and emails it to everyone on the list from my own Gmail.
+
+=== PROMPT 2 ===
+That was nearly a disaster, so new rules before anything else happens. One: I see everything
+before anything moves — write every finished letter to a Preview tab, and instead of sending,
+create DRAFTS in my Gmail so the send button stays mine. Two: read my sheet like a person reads
+it — {{First Name}} and a column called "First name" are the same thing, spacing and
+capitalization are not data. Three: dates and numbers get written for humans — a service date
+reads "November 14, 2025", never a programmer's timestamp, and money reads like money. Four: the
+same address twice means one letter, not two. And five: no letter ever goes out with an unfilled
+{{field}} still in it — if you can't fill it, don't fake it.
+
+=== PROMPT 3 ===
+Before I run my customer list through this: refuse what you can't trust, out loud — a row with no
+email address, an address that doesn't look like one, a duplicate (say which row was kept), a row
+whose required field is empty — each refusal printed with its row number and the reason, never
+guessed, never skipped silently. Honor my Opt Out column: any row marked there is skipped, counted
+and listed — those people asked. Drafts stay the default; sending is a separate mode that only
+engages when I've typed yes into an "I reviewed the Preview" cell, and it must do the quota math
+up front — my daily budget from the Settings tab AND whatever Google says my account has left
+today, whichever is smaller — holding the letters past that line for tomorrow rather than dying in
+the middle of the list. Then audit yourself on every run: rows in must equal letters plus opted
+out plus refused; no letter may still contain a double curly brace; no two letters may share an
+address; sends may never pass the quota. If a check fails, or more than ten percent of my rows
+were refused, print DO NOT TRUST THIS MERGE across the top and say why.
+
+=========================== THE SECOND OPINION ===========================
+
+The episode also used an independent checker — the same rules implemented again in Python by a
+separate session, sharing no code with the script — run on the same sheet. checker.py is in this
+folder. That second opinion is what caught the case-variant duplicate, the "Dear ," letter, and
+the three rows that vanished without a record in version two. When two implementations disagree,
+one of them is wrong, and with email the wrong one has already pressed send.

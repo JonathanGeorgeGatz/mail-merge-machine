@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Mail Merge Machine — free Google Sheets tool</title>
+<style>
+  :root { --ink:#262226; --paper:#FAF8F2; --maroon:#7A2433; --pine:#2F5D46; --line:#e5ddd2; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--paper); color:var(--ink); font:17px/1.55 Georgia, 'Times New Roman', serif; padding:16px; }
+  main { max-width:860px; margin:40px auto; }
+  .kicker { font-family:Verdana, sans-serif; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--pine); }
+  h1 { font-size:44px; line-height:1.1; margin:10px 0 14px; color:var(--maroon); }
+  .lede { font-size:20px; margin-bottom:26px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:22px 26px; margin:18px 0; }
+  h2 { font-family:Verdana, sans-serif; font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--maroon); margin-bottom:10px; }
+  ol,ul { padding-left:22px; } li { margin:7px 0; }
+  code { font-family:Menlo, Consolas, monospace; font-size:14px; background:#f2ede3; padding:1px 5px; border-radius:4px; }
+  .btn { display:inline-block; background:var(--maroon); color:#fff; font-family:Verdana, sans-serif; font-size:15px; padding:13px 22px; border-radius:8px; text-decoration:none; margin:6px 10px 6px 0; }
+  .btn.alt { background:var(--pine); }
+  .foot { font-size:14px; color:#6e675c; margin-top:28px; }
+  .loud { border-left:4px solid var(--maroon); padding-left:14px; }
+  @media (max-width:600px){ h1{font-size:32px} .lede{font-size:18px} }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Build It With AI &middot; Episode 17 &middot; free tool</p>
+  <h1>The Mail Merge Machine</h1>
+  <p class="lede">One letter, personalized for every customer on your list &mdash; the reminder, the
+  follow-up, the price-change note &mdash; previewed first, drafted into <em>your own</em> Gmail by
+  default, from the spreadsheet you already own. No per-seat subscription. Nothing leaves your
+  account.</p>
+
+  <p>
+    <a class="btn" href="Mail_Merge_Machine_BUNDLE.zip">Download the bundle (zip)</a>
+    <a class="btn alt" href="PROMPTS.txt">Read the three prompts</a>
+  </p>
+
+  <div class="card">
+    <h2>What it does</h2>
+    <ul>
+      <li>Reads three tabs: <strong>Contacts</strong> (your list, any columns), <strong>Letter</strong>
+        (Subject + Body with <code>{{Column Name}}</code> fields), <strong>Settings</strong>.</li>
+      <li>Writes a <strong>Preview</strong> tab with every finished letter before anything moves, then
+        creates Gmail <strong>drafts</strong>. Sending is a separate mode behind an
+        &ldquo;I&nbsp;reviewed the Preview&rdquo; cell and the quota arithmetic &mdash; your daily budget
+        and Google&rsquo;s own remaining allowance, whichever is smaller. Overflow is held for tomorrow,
+        never half-sent.</li>
+      <li class="loud">Every row lands somewhere: DRAFTED, SENT, HELD, SKIPPED or REFUSED &mdash; with the
+        row number and the reason. Blank and mistyped addresses, duplicates (the kept row is named),
+        empty fields: refused out loud. The Opt&nbsp;Out column is honored and counted &mdash; those
+        people asked.</li>
+      <li>It audits itself on every run: rows in = letters + opted out + refused, no letter leaves with
+        an unfilled <code>{{field}}</code>, no two letters share an address, sends never pass the quota.
+        On failure it prints <strong>DO&nbsp;NOT&nbsp;TRUST&nbsp;THIS&nbsp;MERGE</strong> and says why.</li>
+      <li>It drafts. You press send. That order never flips on its own.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Five-minute setup</h2>
+    <ol>
+      <li>New Google Sheet with tabs: <code>Contacts</code>, <code>Letter</code>, <code>Settings</code>.</li>
+      <li>Import the sample CSVs from the bundle (or your own list, your own columns).</li>
+      <li>Fill the Settings tab as shown in README.txt &mdash; mode, daily budget, your opt-out column.</li>
+      <li>Extensions &rarr; Apps Script &rarr; paste <code>mailmerge.gs</code> &rarr; run <code>buildMerge</code>.</li>
+      <li>Read the Preview tab, then open Gmail &rarr; Drafts. Nothing has been sent.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>What&rsquo;s in the bundle</h2>
+    <ul>
+      <li><code>mailmerge.gs</code> &mdash; the tool, as shipped and tested</li>
+      <li><code>engine_v1.gs</code> / <code>engine_v2.gs</code> &mdash; the first two builds from the episode, defects and all</li>
+      <li><code>checker.py</code> &mdash; the independent second opinion (same rules, zero shared code)</li>
+      <li><code>contacts.csv</code>, <code>letter.csv</code> &mdash; the fictional sample business (Brightwell Heating &amp; Air)</li>
+      <li><code>PROMPTS.txt</code>, <code>README.txt</code></li>
+    </ul>
+  </div>
+
+  <p class="foot">Sample data is fictional; every address ends in example.com. Sending quotas belong to
+  Google (about 100 recipients a day for a script on a free Gmail account, about 1,500 on Google
+  Workspace, per Google&rsquo;s own quota documentation) &mdash; the tool reads your remaining allowance
+  and holds what doesn&rsquo;t fit. This is for your own customers, not cold lists; bulk-mail
+  deliverability is its own subject. Built on camera for &ldquo;Build It With AI&rdquo;; every number in
+  the episode is this engine&rsquo;s real output.</p>
+</main>
+</body>
+</html>
